@@ -89,7 +89,7 @@ public class ZipHandler3 {
 //        OutputStream out = fs.create(new Path(tiffInHDFS));
 //        //Copy file from local to HDFS
 //        IOUtils.copyBytes(instream, out, 65536, true);
-//        //check code
+//        //checking
 //        //System.out.println("TIFF IS COPIED TO HDFS AND HAS THE HDFS-FILEPATH: ");
 //        //System.out.println(tiffInHDFS);
 //        //System.out.println("");
@@ -97,7 +97,7 @@ public class ZipHandler3 {
 //        //System.out.println("");
 //        //System.out.println("");
 //        return tiffInHDFS;
-    	  return "dummy";
+    	  return "if this is returned, everything is fine";
 //
       }
 
