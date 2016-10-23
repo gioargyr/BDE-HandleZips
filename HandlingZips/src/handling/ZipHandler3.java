@@ -51,6 +51,7 @@ public class ZipHandler3 {
                     Zip zip = new Zip();
                     String[] nameParts = origName.split("\\.");
                     String safeName = nameParts[0] + ".SAFE";
+                    System.out.println("TheSAFE's name is: " + nameParts[0]);
                     String dirToZip = parentName + File.separator + safeName;
                     String finalName = parentName + File.separator + nameParts[0] + ".zip";
                     System.out.println("Directory to be zipped:  " + dirToZip);
