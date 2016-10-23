@@ -57,14 +57,14 @@ public class ZipHandler3 {
                     System.out.println("Directory to be zipped:  " + dirToZip);
                     System.out.println("Final Zip's name:  " + finalName);
                     
-                    System.out.println("Compression started"); 
+                    System.out.println("~~~ Compression Started ~~~"); 
                     double startComp = System.currentTimeMillis();
                     
                     zip.compressDirectory(dirToZip, finalName);
                     
                     double endComp = System.currentTimeMillis();
                     double compTime = endComp - startComp;
-                    System.out.println("Completed compression in: " + compTime + " ms");
+                    System.out.println("Completed compression in: " + compTime + " ms\n");
             	}
         	}
         }
