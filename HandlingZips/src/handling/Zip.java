@@ -27,6 +27,9 @@ public class Zip {
         try {
             FileOutputStream fos = new FileOutputStream(zipFile);
             ZipOutputStream zos = new ZipOutputStream(fos);
+            
+            //System.out.println("Compression started");
+            double startComp = System.currentTimeMillis();
 
             for (String filePath : fileList) {
                 System.out.println("Compressing: " + filePath);
@@ -57,8 +60,11 @@ public class Zip {
                     // must ends with "/"
                     ZipEntry zipEntry = new ZipEntry(name + "/");
                     zos.putNextEntry(zipEntry);
-                    zos.closeEntry();
+                    zos.closeEntry();                   
                 }
+                double endComp = System.currentTimeMillis();
+                double compTime = startComp - endComp;
+                System.out.println("Completed compression in: " + compTime + " ms");
             }
 
             // Close zip output stream and file output stream. This will
