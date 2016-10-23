@@ -28,10 +28,10 @@ public class Zip {
             FileOutputStream fos = new FileOutputStream(zipFile);
             ZipOutputStream zos = new ZipOutputStream(fos);
             
-            //System.out.println("Compression started");            
+            
 
             for (String filePath : fileList) {
-                System.out.println("Compressing: " + filePath);
+                //System.out.println("Compressing: " + filePath);
 
                 String name = filePath.substring(
                         directory.getAbsolutePath().length() + 1, 
