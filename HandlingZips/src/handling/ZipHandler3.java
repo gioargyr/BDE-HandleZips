@@ -12,26 +12,40 @@ public class ZipHandler3 {
         String tiffInHDFS = "";
         TiffUnzipper unzipper = new TiffUnzipper();
         try {
-        	tiffsLocalFilePaths = unzipper.unzip(zipLocalFilePath);
+            System.out.println("~~~ Unzipping ~~~"); 
+            double startUnzip = System.currentTimeMillis();
+            
+           	tiffsLocalFilePaths = unzipper.unzip(zipLocalFilePath);
+           
+            double endUnzip = System.currentTimeMillis();
+            double unzipTime = endUnzip - startUnzip;
+            System.out.println("Unzip made in: " + unzipTime + " ms\n");
+ 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
         
         if (tiffsLocalFilePaths.isEmpty()) {
-        	System.out.println("No tiff found!");
+        	System.out.println("No tiff found!\n");
         }
         else if (tiffsLocalFilePaths.size() == 1) {
-        	System.out.println("Only one tiff found, procceding as usual");
+        	System.out.println("Only one tiff found, procceding as usual\n");
         	tiffInHDFS = tiffLocalToHDFS(tiffsLocalFilePaths.get(0), dirHDFS);
         }
         else {
-        	System.out.println("More than one tiffs found, wait for file-manipulation");
+        	System.out.println("More than one tiffs found, wait for file-manipulation\n");
         	for (int i = 0; i < tiffsLocalFilePaths.size(); i++) {
         		String[] stringParts = tiffsLocalFilePaths.get(i).split("-");
         		int parts = stringParts.length;
             	if (stringParts[3].equals("vv") || stringParts[parts - 1].equals("001")){
+                    System.out.println("~~~ Storing to HDFS ~~~"); 
+                    double startStore = System.currentTimeMillis();
+                    
             		tiffInHDFS = tiffLocalToHDFS(tiffsLocalFilePaths.get(i), dirHDFS);
-            		System.out.println("Tiff with vv polarization will be stored in HDFS");
+                   
+                    double endStore = System.currentTimeMillis();
+                    double storeTime = endStore - startStore;
+                    System.out.println("File stored in HDFS in: " + storeTime + " ms\n");
             	}
             	else {
             		File unwantedTiff = new File(tiffsLocalFilePaths.get(i));
@@ -47,7 +61,7 @@ public class ZipHandler3 {
     		String alterNamePath = origPath + "ORIG";
     		File alteredZip = new File(alterNamePath);
     		if(origZip.renameTo(alteredZip)) {
-    	        System.out.println("renamed");
+    	        System.out.println("");
     	    } 
     		else {
     	         System.out.println("Error");
@@ -71,9 +85,16 @@ public class ZipHandler3 {
             FileUtils.copyDirectory(dirToCopy, dirToHelp);
                               
             String finalName = parentName + File.separator + nameParts[0] + ".zip";
-            System.out.println("Directory to be zipped:  " + dirToZip);
-            System.out.println("Final Zip's name:  " + finalName);
+            //System.out.println("Directory to be zipped:  " + dirToZip);
+            //System.out.println("Final Zip's name:  " + finalName);            
+            System.out.println("~~~ Compression Started ~~~"); 
+            double startComp = System.currentTimeMillis();
+            
             zip.compressDirectory(dirNameToZip, finalName);
+           
+            double endComp = System.currentTimeMillis();
+            double compTime = endComp - startComp;
+            System.out.println("Completed compression in: " + compTime + " ms\n");
         }
         return tiffInHDFS;
 

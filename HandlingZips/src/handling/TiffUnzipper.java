@@ -38,7 +38,7 @@ public class TiffUnzipper {
     	ArrayList<String> tiffFilePaths = new ArrayList<String>();
         //String[] tiffFilePath = new String[];
         //System.out.println("");
-        System.out.println("~~~ Initiating unzipping ~~~");
+        //System.out.println("~~~ Initiating unzipping ~~~");
         File zipFile = new File(zipFilePath);
         String destDirectory = zipFile.getParent();
         ZipInputStream zipIn = new ZipInputStream(new FileInputStream(zipFilePath));
