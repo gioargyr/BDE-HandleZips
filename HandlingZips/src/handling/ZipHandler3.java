@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.apache.commons.io.FileUtils;
+
 public class ZipHandler3 {
 	public String tiffToHDFS(String zipLocalFilePath, String dirHDFS) throws IOException {
         ArrayList<String> tiffsLocalFilePaths = new ArrayList<String>();
@@ -36,29 +38,42 @@ public class ZipHandler3 {
             		if (unwantedTiff.exists()) {
             			unwantedTiff.delete();
             		}
-            		File origZip = new File(zipLocalFilePath);
-            		String origName = origZip.getName();
-            		String parentName = origZip.getParent();
-            		String origPath = origZip.getAbsolutePath();
-            		String alterNamePath = origPath + "ORIG";
-            		File alteredZip = new File(alterNamePath);
-            		if(origZip.renameTo(alteredZip)) {
-            	        System.out.println("renamed");
-            	    } 
-            		else {
-            	         System.out.println("Error");
-            		}
-                    Zip zip = new Zip();
-                    String[] nameParts = origName.split("\\.");
-                    String safeName = nameParts[0] + ".SAFE";
-                    System.out.println("TheSAFE's name is: " + nameParts[0]);
-                    String dirToZip = parentName + File.separator + safeName;
-                    String finalName = parentName + File.separator + nameParts[0] + ".zip";
-                    System.out.println("Directory to be zipped:  " + dirToZip);
-                    System.out.println("Final Zip's name:  " + finalName);
-                    zip.compressDirectory(dirToZip, finalName);
             	}
         	}
+    		File origZip = new File(zipLocalFilePath);
+    		String origName = origZip.getName();
+    		String parentName = origZip.getParent();
+    		String origPath = origZip.getAbsolutePath();
+    		String alterNamePath = origPath + "ORIG";
+    		File alteredZip = new File(alterNamePath);
+    		if(origZip.renameTo(alteredZip)) {
+    	        System.out.println("renamed");
+    	    } 
+    		else {
+    	         System.out.println("Error");
+    		}           
+            
+            Zip zip = new Zip();                    
+            String[] nameParts = origName.split("\\.");
+            
+            String dirNameToZip = parentName + File.separator + nameParts[0];
+            File dirToZip = new File(dirNameToZip);
+            
+            dirToZip.mkdir();                   
+            String safeName = nameParts[0] + ".SAFE";
+            String dirNameToCopy = dirNameToZip + ".SAFE";
+            File dirToCopy = new File(dirNameToCopy);
+            
+            String dirNameHelp = dirNameToZip + File.separator + safeName;
+            File dirToHelp = new File(dirNameHelp);
+            dirToHelp.mkdir();
+           
+            FileUtils.copyDirectory(dirToCopy, dirToHelp);
+                              
+            String finalName = parentName + File.separator + nameParts[0] + ".zip";
+            System.out.println("Directory to be zipped:  " + dirToZip);
+            System.out.println("Final Zip's name:  " + finalName);
+            zip.compressDirectory(dirNameToZip, finalName);
         }
         return tiffInHDFS;
 
